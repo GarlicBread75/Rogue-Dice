@@ -3,10 +3,12 @@ using UnityEngine;
 
 public class PlayerDice : MonoBehaviour
 {
-    [SerializeField] float jumpForce, rollCooldown, cdAcceleration, rollCd;
-    bool jumpPressed;
+    [SerializeField] float jumpForce;
+    [SerializeField] float attackCooldown;
     [SerializeField] LayerMask ground;
     [SerializeField] Vector2 spinSpeed;
+    Vector3 initialPosition;
+    float atkCd;
 
     // Misc
     Rigidbody rb;
@@ -14,15 +16,8 @@ public class PlayerDice : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rollCd = rollCooldown;
-    }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space) && Grounded())
-        {
-            jumpPressed = true;
-        }
+        atkCd = attackCooldown;
+        initialPosition = transform.position;
     }
 
     void FixedUpdate()
@@ -32,29 +27,33 @@ public class PlayerDice : MonoBehaviour
             rb.angularVelocity = Vector3.zero;
         }
 
-        if (jumpPressed)
+        if (atkCd < attackCooldown)
         {
-            StartCoroutine(Jumping());
-        }
-
-        if (rollCd < rollCooldown)
-        {
-            rollCd += Time.fixedDeltaTime * cdAcceleration;
+            atkCd += Time.deltaTime;
         }
     }
 
     IEnumerator Jumping()
     {
-        rb.velocity = Vector3.up * jumpForce;
-        yield return new WaitForSeconds(0.05f);
-
-        if (rollCd >= rollCooldown)
+        if (atkCd >= attackCooldown)
         {
+            rb.velocity = Vector3.up * jumpForce;
+            yield return new WaitForSeconds(0.05f);
             rb.angularVelocity = new Vector3(Random.Range(spinSpeed.x, spinSpeed.y), Random.Range(spinSpeed.x, spinSpeed.y), Random.Range(spinSpeed.x, spinSpeed.y));
-            rollCd = 0;
+            atkCd = 0;
+            StartCoroutine(SetPos(3));
         }
+    }
 
-        jumpPressed = false;
+    IEnumerator SetPos(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        transform.position = initialPosition;
+    }
+
+    public void Roll()
+    {
+        StartCoroutine(Jumping());
     }
 
     bool Grounded()

@@ -1,27 +1,27 @@
 using UnityEngine;
+using UnityEngine.UI;
 
-public class PlayerHealth : MonoBehaviour
+public class Unit : MonoBehaviour
 {
-    [SerializeField] int maxHp, currentHp;
+    [SerializeField] int maxHp, currentHp, dmg;
+    [SerializeField] string Name;
+    [SerializeField] Slider slider;
+    [SerializeField] bool dontDestroy;
 
     void Start()
     {
         currentHp = maxHp;
+        slider.maxValue = maxHp;
+        slider.value = currentHp;
     }
 
     void FixedUpdate()
     {
+        slider.value = currentHp;
+
         if (currentHp <= 0)
         {
             Die();
-        }
-    }
-
-    void OnCollisionEnter(Collision collider)
-    {
-        if (collider.gameObject.CompareTag("Player"))
-        {
-            TakeDmg(1);
         }
     }
 
@@ -49,6 +49,13 @@ public class PlayerHealth : MonoBehaviour
 
     void Die()
     {
-        gameObject.SetActive(false);
+        if (dontDestroy)
+        {
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 }

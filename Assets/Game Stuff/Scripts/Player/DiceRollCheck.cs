@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class DiceRollCheck : MonoBehaviour
 {
-    [SerializeField] int num;
+    public int num;
 
     [SerializeField] Vector3Int DirectionValues;
     Vector3Int OpposingDirectionValues;

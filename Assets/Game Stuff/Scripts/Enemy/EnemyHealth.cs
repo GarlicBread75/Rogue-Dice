@@ -1,16 +1,22 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyHealth : MonoBehaviour
 {
     [SerializeField] int maxHp, currentHp;
+    [SerializeField] Slider slider;
 
     void Start()
     {
         currentHp = maxHp;
+        slider.maxValue = maxHp;
+        slider.value = currentHp;
     }
 
     void FixedUpdate()
     {
+        slider.value = currentHp;
+
         if (currentHp <= 0)
         {
             Die();
