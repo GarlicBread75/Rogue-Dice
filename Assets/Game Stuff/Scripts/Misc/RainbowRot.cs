@@ -2,10 +2,9 @@ using UnityEngine;
 
 public class RainbowRot : MonoBehaviour
 {
-    [SerializeField] float hueModifier;
+    [SerializeField] float hueModifier, hue;
     [SerializeField] bool canColour;
     [SerializeField] Color colour;
-    [SerializeField] float hue;
     Renderer rend;
 
     [Space]
@@ -13,13 +12,8 @@ public class RainbowRot : MonoBehaviour
     [Space]
 
     [SerializeField] float rotModifier;
-    [SerializeField] bool canRot;
-    [SerializeField] bool canRotX;
-    [SerializeField] bool canRotY;
-    [SerializeField] bool canRotZ;
-    float rotX;
-    float rotY;
-    float rotZ;
+    [SerializeField] bool canRot, canRotX, canRotY, canRotZ;
+    float rotX, rotY, rotZ;
 
     void Start()
     {

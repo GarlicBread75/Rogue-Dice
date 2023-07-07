@@ -1,2 +1,2 @@
 # Rogue-Dice
- A roguelike about a dice.
+ A turn-based card-building dice roguelike.
